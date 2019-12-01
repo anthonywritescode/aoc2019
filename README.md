@@ -16,7 +16,9 @@ https://adventofcode.com/2019
 $ find -maxdepth 1 -type d -name 'day*' -not -name day0 | sort | xargs --replace bash -xc 'python {}/part1.py {}/input.txt; python {}/part2.py {}/input.txt'
 + python day01/part1.py day01/input.txt
 3426455
-> 84 μs
+> 84 μs (original)
+3426455
+> 67 μs (oneline)
 + python day01/part2.py day01/input.txt
 5136807
 > 632 μs

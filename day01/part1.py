@@ -26,6 +26,10 @@ def compute(s: str) -> int:
     return total
 
 
+def compute_oneline(s: str) -> int:
+    return sum(int(line) // 3 - 2 for line in s.splitlines())
+
+
 @pytest.mark.parametrize(
     ('input_s', 'expected'),
     (
@@ -44,8 +48,11 @@ def main() -> int:
     parser.add_argument('data_file')
     args = parser.parse_args()
 
-    with open(args.data_file) as f, timing():
+    with open(args.data_file) as f, timing('original'):
         print(compute(f.read()))
+
+    with open(args.data_file) as f, timing('oneline'):
+        print(compute_oneline(f.read()))
 
     return 0
 

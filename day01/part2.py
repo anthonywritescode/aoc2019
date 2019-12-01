@@ -19,6 +19,21 @@ def compute(s: str) -> int:
     return total
 
 
+def _compute_recursive_inner(n: int) -> int:
+    val = fuel_for_value(n)
+    if val == 0:
+        return val
+    else:
+        return val + _compute_recursive_inner(val)
+
+
+def compute_recursive(s: str) -> int:
+    total = 0
+    for line in s.splitlines():
+        total += _compute_recursive_inner(int(line))
+    return total
+
+
 @pytest.mark.parametrize(
     ('input_s', 'expected'),
     (
@@ -36,8 +51,10 @@ def main() -> int:
     parser.add_argument('data_file')
     args = parser.parse_args()
 
-    with open(args.data_file) as f, timing():
+    with open(args.data_file) as f, timing('original'):
         print(compute(f.read()))
+    with open(args.data_file) as f, timing('recursive'):
+        print(compute_recursive(f.read()))
 
     return 0
 

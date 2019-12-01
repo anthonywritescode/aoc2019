@@ -21,5 +21,7 @@ $ find -maxdepth 1 -type d -name 'day*' -not -name day0 | sort | xargs --replace
 > 67 μs (oneline)
 + python day01/part2.py day01/input.txt
 5136807
-> 632 μs
+> 636 μs (original)
+5136807
+> 677 μs (recursive)
 ```

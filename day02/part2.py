@@ -30,9 +30,14 @@ def compute_not_broken(prog: List[int]) -> int:
 
 def compute(s: str) -> int:
     prog = [int(part) for part in s.strip().split(',')]
-    prog[1] = 12
-    prog[2] = 2
-    return compute_not_broken(prog)
+    for noun in range(100):
+        for verb in range(100):
+            prog_tmp = prog[:]
+            prog_tmp[1] = noun
+            prog_tmp[2] = verb
+            if compute_not_broken(prog_tmp) == 19690720:
+                return 100 * noun + verb
+    raise AssertionError('unreachable?')
 
 
 @pytest.mark.parametrize(

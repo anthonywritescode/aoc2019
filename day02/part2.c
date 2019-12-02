@@ -57,10 +57,20 @@ int main(int argc, char* argv[]) {
     }
     fclose(f);
 
-    arr[1] = 12;
-    arr[2] = 2;
-    printf("%ld\n", compute(arr));
+    long* tmp = malloc(sizeof *tmp * idx);
+    for (long noun = 0; noun < 100; noun += 1) {
+        for (long verb = 0; verb < 100; verb += 1) {
+            memcpy(tmp, arr, sizeof *arr * idx);
+            tmp[1] = noun;
+            tmp[2] = verb;
+            if (compute(tmp) == 19690720) {
+                printf("%ld\n", 100 * noun + verb);
+                free(tmp);
+                free(arr);
+                return 0;
+            }
+        }
+    }
 
-    free(arr);
-    return 0;
+    assert(!"unreachable");
 }

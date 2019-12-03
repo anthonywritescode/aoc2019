@@ -32,7 +32,9 @@ $ find -maxdepth 1 -type d -name 'day*' -not -name day0 | sort | xargs --replace
 > 90734 μs
 + python day03/part1.py day03/input.txt
 225
-> 232 ms
+> 276 ms (original)
+225
+> 266 ms (vector collision)
 + python day03/part2.py day03/input.txt
 35194
 > 352 ms

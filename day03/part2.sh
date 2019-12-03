@@ -17,6 +17,7 @@ done < "$1"
 declare -A grid
 x=0
 y=0
+n=0
 while IFS= read -d, -r part; do
     direction="${part:0:1}"
     magnitude="${part:1}"
@@ -30,13 +31,17 @@ while IFS= read -d, -r part; do
         elif [ "$direction" = "D" ]; then
             : $((y-=1))
         fi
-        grid["$x,$y"]=1
+        : $((n+=1))
+        if [ ! "${grid[$x,$y]+isset}" ]; then
+            grid["$x,$y"]="$n"
+        fi
     done
 done <<< "${lines[0]}"
 
-distances=()
+steps=()
 x=0
 y=0
+n=0
 while IFS= read -d, -r part; do
     direction="${part:0:1}"
     magnitude="${part:1}"
@@ -50,14 +55,15 @@ while IFS= read -d, -r part; do
         elif [ "$direction" = "D" ]; then
             : $((y-=1))
         fi
+        : $((n+=1))
         if [ "${grid[$x,$y]+isset}" ]; then
-            distances+=($(("${x#-}"+"${y#-}")))
+            steps+=($(("${grid[$x,$y]}"+"$n")))
         fi
     done
 done <<< "${lines[1]}"
 
 min=1000000
-for candidate in "${distances[@]}"; do
+for candidate in "${steps[@]}"; do
     if [ "$candidate" -lt "$min" ]; then
         min="$candidate"
     fi

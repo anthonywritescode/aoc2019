@@ -1,6 +1,7 @@
 import argparse
 import collections
 import sys
+from typing import Callable
 from typing import Dict
 from typing import Tuple
 
@@ -21,32 +22,41 @@ DIRECTIONS = {
 }
 
 
+def trace_wire(wire: str, callback: Callable[[Tuple[int, int]], None]) -> None:
+    position = (0, 0)
+    for part in wire.split(','):
+        direction, magnitude = part[0], int(part[1:])
+        direction_tup = DIRECTIONS[direction]
+        for _ in range(magnitude):
+            position = tup_add(position, direction_tup)
+            callback(position)
+
+
 def compute(s: str) -> int:
     wire1, wire2 = s.strip().splitlines()
     intersections = []
 
     grid: Dict[Tuple[int, int], int]
     grid = collections.defaultdict(lambda: sys.maxsize)
-    position = (0, 0)
-    i = 0
-    for part in wire1.split(','):
-        direction, magnitude = part[0], int(part[1:])
-        direction_tup = DIRECTIONS[direction]
-        for _ in range(magnitude):
-            i += 1
-            position = tup_add(position, direction_tup)
-            grid[position] = min(grid[position], i)
 
-    position = (0, 0)
     i = 0
-    for part in wire2.split(','):
-        direction, magnitude = part[0], int(part[1:])
-        direction_tup = DIRECTIONS[direction]
-        for _ in range(magnitude):
-            i += 1
-            position = tup_add(position, direction_tup)
-            if position in grid:
-                intersections.append(grid[position] + i)
+
+    def record_minimum_position(position: Tuple[int, int]) -> None:
+        nonlocal i
+        i += 1
+        grid[position] = min(grid[position], i)
+
+    trace_wire(wire1, record_minimum_position)
+
+    i = 0
+
+    def record_intersection_actions(position: Tuple[int, int]) -> None:
+        nonlocal i
+        i += 1
+        if position in grid:
+            intersections.append(grid[position] + i)
+
+    trace_wire(wire2, record_intersection_actions)
 
     return min(intersections)
 

@@ -1,4 +1,5 @@
 import argparse
+from typing import Callable
 from typing import Set
 from typing import Tuple
 
@@ -19,27 +20,32 @@ DIRECTIONS = {
 }
 
 
+def trace_wire(wire: str, callback: Callable[[Tuple[int, int]], None]) -> None:
+    position = (0, 0)
+    for part in wire.split(','):
+        direction, magnitude = part[0], int(part[1:])
+        direction_tup = DIRECTIONS[direction]
+        for _ in range(magnitude):
+            position = tup_add(position, direction_tup)
+            callback(position)
+
+
 def compute(s: str) -> int:
     wire1, wire2 = s.strip().splitlines()
     intersections = []
 
     grid: Set[Tuple[int, int]] = set()
-    position = (0, 0)
-    for part in wire1.split(','):
-        direction, magnitude = part[0], int(part[1:])
-        direction_tup = DIRECTIONS[direction]
-        for _ in range(magnitude):
-            position = tup_add(position, direction_tup)
-            grid.add(position)
 
-    position = (0, 0)
-    for part in wire2.split(','):
-        direction, magnitude = part[0], int(part[1:])
-        direction_tup = DIRECTIONS[direction]
-        for _ in range(magnitude):
-            position = tup_add(position, direction_tup)
-            if position in grid:
-                intersections.append(sum(abs(p) for p in position))
+    def save_to_grid(position: Tuple[int, int]) -> None:
+        grid.add(position)
+
+    trace_wire(wire1, save_to_grid)
+
+    def collect_distance_at_intersection(position: Tuple[int, int]) -> None:
+        if position in grid:
+            intersections.append(sum(abs(p) for p in position))
+
+    trace_wire(wire2, collect_distance_at_intersection)
 
     return min(intersections)
 

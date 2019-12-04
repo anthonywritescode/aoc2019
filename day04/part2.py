@@ -6,44 +6,21 @@ import pytest
 from support import timing
 
 
-"""\
-It is a six-digit number.
-The value is within the range given in your puzzle input.
-Two adjacent digits are the same (like 22 in 122345).
-Going from left to right, the digits never decrease; they only ever increase
-or stay the same (like 111123 or 135679).
-"""
-
-
 def compute(s: str) -> int:
     beg_s, end_s = s.strip().split('-')
     beg, end = int(beg_s), int(end_s)
     n = 0
     for i in range(beg, end):
         str_i = str(i)
-        if len(str_i) != 6:
-            continue
-        if not (
-            ord(str_i[0]) <= ord(str_i[1]) <= ord(str_i[2]) <=
-            ord(str_i[3]) <= ord(str_i[4]) <= ord(str_i[5])
-        ):
-            continue
-        adjacent_same = False
-        prev = str_i[0]
-        for c in str_i[1:]:
-            if c == prev:
-                adjacent_same = True
-            prev = c
-        if not adjacent_same:
+
+        if len(str_i) != 6:  # length must be 6
             continue
 
-        has_one_thats_exactly_two = False
-        counter = collections.Counter(str_i)
-        for _, count in counter.most_common():
-            if count == 2:
-                has_one_thats_exactly_two = True
+        if ''.join(sorted(str_i)) != str_i:  # non-decreasing order
+            continue
 
-        if not has_one_thats_exactly_two:
+        counts = collections.Counter(str_i)
+        if 2 not in counts.values():  # some repeated digit, with exactly 2
             continue
 
         n += 1

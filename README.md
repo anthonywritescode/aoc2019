@@ -5,6 +5,11 @@ advent of code 2019
 
 https://adventofcode.com/2019
 
+### stream / youtube
+
+- [Streamed daily on twitch](https://twitch.tv/anthonywritescode)
+- [Uploaded to youtube afterwards](https://www.youtube.com/watch?v=YU3l-0dHTjs&list=PLWBKAf81pmOZuuQiuOT4Ag-yeTfZ9cN3_)
+
 ### timing
 
 - comparing to these numbers isn't necessarily useful

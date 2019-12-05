@@ -48,7 +48,6 @@ def run(prog: List[int], fn: Callable[[int], None]) -> List[int]:
         if opc == 99:
             return prog
         elif opc == 1:
-            # can you assign in immediate mode?
             prog[prog[pc + 3]] = parameter(instr, 1) + parameter(instr, 2)
             pc += 4
         elif opc == 2:

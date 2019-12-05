@@ -10,6 +10,16 @@ https://adventofcode.com/2019
 - [Streamed daily on twitch](https://twitch.tv/anthonywritescode)
 - [Uploaded to youtube afterwards](https://www.youtube.com/watch?v=YU3l-0dHTjs&list=PLWBKAf81pmOZuuQiuOT4Ag-yeTfZ9cN3_)
 
+### about
+
+for 2019 I'm trying to implement each day in a different language:
+
+- day1: c++
+- day2: c
+- day3: bash
+- day4: java (drunk), sqlite (sober)
+- day5: rust
+
 ### timing
 
 - comparing to these numbers isn't necessarily useful

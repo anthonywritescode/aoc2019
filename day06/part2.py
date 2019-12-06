@@ -16,16 +16,16 @@ def compute(s: str) -> int:
     node = nodes['YOU']
     i = 0
     while node != 'COM':
-        i += 1
         you_hops[node] = i
+        i += 1
         node = nodes[node]
 
     san_hops: Dict[str, int] = {}
     node = nodes['SAN']
     i = 0
     while node != 'COM':
-        i += 1
         san_hops[node] = i
+        i += 1
         node = nodes[node]
 
     candidates = [
@@ -34,7 +34,7 @@ def compute(s: str) -> int:
     ]
 
     n, el = min(candidates)
-    return n - 2
+    return n
 
 
 INPUT = '''\

@@ -1,38 +1,32 @@
 import argparse
 from typing import Dict
-from typing import NamedTuple
 
 import pytest
 
 from support import timing
 
 
-class Node(NamedTuple):
-    parent: str
-    name: str
-
-
 def compute(s: str) -> int:
-    nodes = {'COM': Node('', 'COM')}
+    nodes = {'COM': ''}
     for line in s.splitlines():
         parent, name = line.split(')')
-        nodes[name] = Node(parent, name)
+        nodes[name] = parent
 
     you_hops: Dict[str, int] = {}
     node = nodes['YOU']
     i = 0
-    while node.name != 'COM':
+    while node != 'COM':
         i += 1
-        you_hops[node.parent] = i
-        node = nodes[node.parent]
+        you_hops[node] = i
+        node = nodes[node]
 
     san_hops: Dict[str, int] = {}
     node = nodes['SAN']
     i = 0
-    while node.name != 'COM':
+    while node != 'COM':
         i += 1
-        san_hops[node.parent] = i
-        node = nodes[node.parent]
+        san_hops[node] = i
+        node = nodes[node]
 
     candidates = [
         (you_hops[k] + san_hops[k], k)

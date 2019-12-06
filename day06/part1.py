@@ -1,27 +1,22 @@
 import argparse
-from typing import NamedTuple
 
 import pytest
 
 from support import timing
 
 
-class Node(NamedTuple):
-    parent: str
-    name: str
-
-
 def compute(s: str) -> int:
-    nodes = {'COM': Node('', 'COM')}
+    nodes = {'COM': ''}
     for line in s.splitlines():
         parent, name = line.split(')')
-        nodes[name] = Node(parent, name)
+        nodes[name] = parent
 
+    # TODO: cache the loopup
     total = 0
     for node in nodes.values():
-        while node.name != 'COM':
+        while node != '':
             total += 1
-            node = nodes[node.parent]
+            node = nodes[node]
     return total
 
 

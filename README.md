@@ -76,8 +76,8 @@ $ python day05/part2.py day05/input.txt
 > 439 μs
 + python day06/part1.py day06/input.txt
 147223
-> 48546 μs
+> 32176 μs
 + python day06/part2.py day06/input.txt
 340
-> 2504 μs
+> 759 μs
 ```

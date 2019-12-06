@@ -19,6 +19,7 @@ for 2019 I'm trying to implement each day in a different language:
 - day3: bash
 - day4: java (drunk), sqlite (sober)
 - day5: rust
+- day6: perl
 
 ### timing
 

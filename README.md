@@ -18,7 +18,7 @@ for 2019 I'm trying to implement each day in a different language:
 - day2: c, javascript (part 1 also in sqlite)
 - day3: bash
 - day4: java (drunk), sqlite (sober)
-- day5: rust, sqlite
+- day5: rust, sqlite, javascript
 - day6: perl
 
 ### timing

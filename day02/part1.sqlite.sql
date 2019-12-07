@@ -35,7 +35,7 @@ CREATE TABLE pc (value INT);
 PRAGMA recursive_triggers = on;
 CREATE TEMP TRIGGER ttrig
 AFTER UPDATE OF value ON pc
-WHEN (SELECT prog.i FROM prog WHERE ROWID = NEW.value)
+WHEN (SELECT prog.i FROM prog WHERE ROWID = NEW.value) != 99
 BEGIN
     UPDATE prog
     SET i = (
@@ -82,7 +82,7 @@ END;
 UPDATE prog SET i = 12 WHERE ROWID = 1;
 UPDATE prog SET i = 2 WHERE ROWID = 2;
 
--- INSERT INTO pc VALUES (0);
+-- trigger the code
 INSERT INTO pc VALUES (-1);
 UPDATE pc SET value = 0;
 

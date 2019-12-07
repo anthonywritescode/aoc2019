@@ -15,7 +15,7 @@ https://adventofcode.com/2019
 for 2019 I'm trying to implement each day in a different language:
 
 - day1: c++
-- day2: c (part 1 also in sqlite)
+- day2: c, javascript (part 1 also in sqlite)
 - day3: bash
 - day4: java (drunk), sqlite (sober)
 - day5: rust, sqlite

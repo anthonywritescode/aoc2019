@@ -21,6 +21,7 @@ for 2019 I'm trying to implement each day in a different language:
 - day5: rust, sqlite, javascript
 - day6: perl
 - day7: javascript
+- day8: intcode (part1)
 
 ### timing
 

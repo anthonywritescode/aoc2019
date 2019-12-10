@@ -93,19 +93,8 @@ foreach ($key_x in $slopes.Keys) {
                 break
             }
         }
-        if ($slopes_sorted.Length -eq 0) {
-            $slopes_sorted_k = @($slope_key)
-            $slopes_sorted = , @(@($key_x,$key_y))
-        } elseif ($i -eq 0) {
-            $slopes_sorted_k = @($slope_key) + $slopes_sorted_k
-            $slopes_sorted = , @(@($key_x,$key_y)) + $slopes_sorted
-        } elseif ($i -eq $slopes_sorted_k.Length) {
-            $slopes_sorted_k += $slope_key
-            $slopes_sorted += , @(@($key_x,$key_y))
-        } else {
-            $slopes_sorted_k = $slopes_sorted_k[0..$($i-1)] + $slope_key + $slopes_sorted_k[$i..$slopes_sorted_k.Length]
-            $slopes_sorted = $slopes_sorted[0..$($i-1)] + , @(@($key_x,$key_y)) + $slopes_sorted[$i..$slopes_sorted.Length]
-        }
+        $slopes_sorted_k = $slopes_sorted_k[0..$($i-1)] + $slope_key + $slopes_sorted_k[$i..$slopes_sorted_k.Length]
+        $slopes_sorted = $slopes_sorted[0..$($i-1)] + , @(@($key_x,$key_y)) + $slopes_sorted[$i..$slopes_sorted.Length]
     }
 }
 

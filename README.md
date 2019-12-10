@@ -23,6 +23,7 @@ for 2019 I'm trying to implement each day in a different language:
 - day7: javascript
 - day8: intcode (part1), lua (part2)
 - day9: nim
+- day10: powershell
 
 ### timing
 

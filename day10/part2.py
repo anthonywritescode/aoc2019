@@ -55,7 +55,7 @@ def compute(s: str) -> int:
                 y_diff = y_sign * 1
             if y_diff == 0:
                 x_diff = x_sign * 1
-            gcd = abs(math.gcd(x_diff, y_diff))
+            gcd = math.gcd(x_diff, y_diff)
             slopes_set.add(Coord(x_diff // gcd, y_diff // gcd))
 
     slopes = sorted(slopes_set, key=slope_key, reverse=True)

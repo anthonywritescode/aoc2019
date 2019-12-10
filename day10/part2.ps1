@@ -1,5 +1,3 @@
-$ErrorActionPreference = "Stop"
-
 if ($args.Length -ne 1) {
     Write-Error "usage: FILENAME"
     Exit 1
@@ -93,8 +91,13 @@ foreach ($key_x in $slopes.Keys) {
                 break
             }
         }
-        $slopes_sorted_k = $slopes_sorted_k[0..$($i-1)] + $slope_key + $slopes_sorted_k[$i..$slopes_sorted_k.Length]
-        $slopes_sorted = $slopes_sorted[0..$($i-1)] + , @(@($key_x,$key_y)) + $slopes_sorted[$i..$slopes_sorted.Length]
+        if ($i -eq 0) {
+            $slopes_sorted_k = @($slope_key) + $slopes_sorted_k
+            $slopes_sorted = , @(@($key_x,$key_y)) + $slopes_sorted
+        } else {
+            $slopes_sorted_k = $slopes_sorted_k[0..$($i-1)] + $slope_key + $slopes_sorted_k[$i..$slopes_sorted_k.Length]
+            $slopes_sorted = $slopes_sorted[0..$($i-1)] + , @(@($key_x,$key_y)) + $slopes_sorted[$i..$slopes_sorted.Length]
+        }
     }
 }
 

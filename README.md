@@ -119,4 +119,12 @@ $ python day05/part2.py day05/input.txt
 + python day11/part1.py day11/input.txt
 2226
 > 230 ms
+python day11/part2.py day11/input.txt
+ #  # ###   ##  #    #### #  # #    ####
+ #  # #  # #  # #       # # #  #    #
+ #### ###  #    #      #  ##   #    ###
+ #  # #  # # ## #     #   # #  #    #
+ #  # #  # #  # #    #    # #  #    #
+ #  # ###   ### #### #### #  # #### #
+> 21650 μs
 ```

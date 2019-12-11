@@ -120,36 +120,27 @@ BEGIN
         store1 = COALESCE(store1, 0),
         store3 = COALESCE(store3, 0);
 
-    -- make sure destinations for store1 and store3 exist
-    INSERT OR IGNORE INTO prog (ROWID, i)
-    SELECT (SELECT param.store1 FROM param), 0
-    WHERE (SELECT param.opc FROM param) = 3
-    UNION
-    SELECT (SELECT param.store3 FROM param), 0
-    WHERE (SELECT param.opc FROM param) IN (1, 2, 7, 8);
-
     -- opcode 1
     -- -- operation (ADD)
-    UPDATE prog
-    SET i = (SELECT param.param1 FROM param) + (SELECT param.param2 FROM param)
-    WHERE
-        ROWID = (SELECT param.store3 FROM param) AND
-        (SELECT param.opc FROM param) = 1;
+    INSERT OR REPLACE INTO prog (ROWID, i)
+    SELECT
+        (SELECT param.store3 FROM param),
+        (SELECT param.param1 FROM param) + (SELECT param.param2 FROM param)
+    WHERE (SELECT param.opc FROM param) = 1;
 
     -- opcode 2
     -- -- operation (MULT)
-    UPDATE prog
-    SET i = (SELECT param.param1 FROM param) * (SELECT param.param2 FROM param)
-    WHERE
-        ROWID = (SELECT param.store3 FROM param) AND
-        (SELECT param.opc FROM param) = 2;
+    INSERT OR REPLACE INTO prog (ROWID, i)
+    SELECT
+        (SELECT param.store3 FROM param),
+        (SELECT param.param1 FROM param) * (SELECT param.param2 FROM param)
+    WHERE (SELECT param.opc FROM param) = 2;
 
     -- opcode 3
     -- -- operation (INPUT)
-    UPDATE prog SET i = 1
-    WHERE
-        ROWID = (SELECT param.store1 FROM param) AND
-        (SELECT param.opc FROM param) = 3;
+    INSERT OR REPLACE INTO prog (ROWID, i)
+    SELECT (SELECT param.store1 FROM param), 1
+    WHERE (SELECT param.opc FROM param) = 3;
 
     -- opcode 4
     -- -- operation (OUTPUT)
@@ -162,19 +153,19 @@ BEGIN
 
     -- opcode 7
     -- -- operation (LT)
-    UPDATE prog SET i =
+    INSERT OR REPLACE INTO prog (ROWID, i)
+    SELECT
+        (SELECT param.store3 FROM param),
         (SELECT param.param1 FROM param) < (SELECT param.param2 FROM param)
-    WHERE
-        ROWID = (SELECT param.store3 FROM param) AND
-        (SELECT param.opc FROM param) = 7;
+    WHERE (SELECT param.opc FROM param) = 7;
 
     -- opcode 8
     -- -- operation (EQ)
-    UPDATE prog SET i =
+    INSERT OR REPLACE INTO prog (ROWID, i)
+    SELECT
+        (SELECT param.store3 FROM param),
         (SELECT param.param1 FROM param) = (SELECT param.param2 FROM param)
-    WHERE
-        ROWID = (SELECT param.store3 FROM param) AND
-        (SELECT param.opc FROM param) = 8;
+    WHERE (SELECT param.opc FROM param) = 8;
 
     -- opcode 9
     UPDATE rb SET value = value + (SELECT param.param1 FROM param)
@@ -209,7 +200,7 @@ BEGIN
 END;
 
 -- trigger the code
-INSERT INTO pc VALUES (-1);
+INSERT INTO pc VALUES (0);
 UPDATE pc SET value = 0;
 
 SELECT * FROM output;

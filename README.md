@@ -116,4 +116,7 @@ $ python day05/part2.py day05/input.txt
 + python day10/part2.py day10/input.txt
 1309
 > 5190 μs
++ python day11/part1.py day11/input.txt
+2226
+> 230 ms
 ```

@@ -120,11 +120,13 @@ BEGIN
         store1 = COALESCE(store1, 0),
         store3 = COALESCE(store3, 0);
 
-    -- make sure destinations for store1 and store3 always exist
-    INSERT OR IGNORE INTO prog
-    VALUES ((SELECT param.store1 FROM param), 0);
+    -- make sure destinations for store1 and store3 exist
     INSERT OR IGNORE INTO prog (ROWID, i)
-    VALUES ((SELECT param.store3 FROM param), 0);
+    SELECT (SELECT param.store1 FROM param), 0
+    WHERE (SELECT param.opc FROM param) = 3
+    UNION
+    SELECT (SELECT param.store3 FROM param), 0
+    WHERE (SELECT param.opc FROM param) IN (1, 2, 7, 8);
 
     -- opcode 1
     -- -- operation (ADD)

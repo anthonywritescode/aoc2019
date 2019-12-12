@@ -128,4 +128,7 @@ python day11/part2.py day11/input.txt
  #  # #  # #  # #    #    # #  #    #
  #  # ###   ### #### #### #  # #### #
 > 21650 μs
++ python day12/part1.py day12/input.txt
+5937
+> 42334 μs
 ```

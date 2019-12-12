@@ -25,6 +25,7 @@ for 2019 I'm trying to implement each day in a different language:
 - day9: nim, sqlite
 - day10: powershell
 - day11: swift
+- day12: kotlin
 
 ### timing
 

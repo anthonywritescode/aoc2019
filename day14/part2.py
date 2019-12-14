@@ -70,12 +70,12 @@ def compute(s: str) -> int:
     all_reactions = [Reaction.parse(line) for line in s.splitlines()]
     reactions = {reaction.chemical: reaction for reaction in all_reactions}
 
-    excess = {k: 0 for k in reactions}
     ore = 1000000000000
     fuel = 1
     inc = 1
 
     while True:
+        excess = {k: 0 for k in reactions}
         ore_required = require('FUEL', fuel + inc, reactions, excess)
         if ore_required > ore:
             if inc == 1:

@@ -5,34 +5,12 @@ from typing import Dict
 
 from support import timing
 
-# 99 -> halt
-# 1 -> read from 2 positions, add and store in third
-#   (positions are directly after)
-# 2 -> mult
-# jump forward 4 after progessing
-"""\
-Opcode 3 takes a single integer as input and saves it to the address given
-by its only parameter. For example, the instruction 3,50 would take an input
-value and store it at address 50.
-Opcode 4 outputs the value of its only parameter. For example, the
-instruction 4,50 would output the value at address 50.
 
-Opcode 5 is jump-if-true: if the first parameter is non-zero, it sets the
-instruction pointer to the value from the second parameter. Otherwise, it
-does nothing.
-Opcode 6 is jump-if-false: if the first parameter is zero, it sets the
-instruction pointer to the value from the second parameter. Otherwise, it
-does nothing.
-Opcode 7 is less than: if the first parameter is less than the second
-parameter, it stores 1 in the position given by the third parameter.
-Otherwise, it stores 0.
-Opcode 8 is equals: if the first parameter is equal to the second parameter,
-it stores 1 in the position given by the third parameter. Otherwise, it
-stores 0.
-"""
-
-
-def run(prog: Dict[int, int], fn: Callable[[int], None]) -> None:
+def run(
+        prog: Dict[int, int],
+        in_fn: Callable[[], int],
+        out_fn: Callable[[int], None],
+) -> None:
     def parameter(instr: int, n: int) -> int:
         mode = instr // (10 ** (n + 1)) % 10
         if mode == 0:
@@ -67,10 +45,10 @@ def run(prog: Dict[int, int], fn: Callable[[int], None]) -> None:
             prog[store(instr, 3)] = parameter(instr, 1) * parameter(instr, 2)
             pc += 4
         elif opc == 3:
-            prog[store(instr, 1)] = 2  # the hardcoded input
+            prog[store(instr, 1)] = in_fn()
             pc += 2
         elif opc == 4:
-            fn(parameter(instr, 1))
+            out_fn(parameter(instr, 1))
             pc += 2
         elif opc == 5:
             if parameter(instr, 1):
@@ -105,7 +83,14 @@ def run(prog: Dict[int, int], fn: Callable[[int], None]) -> None:
 def compute(s: str) -> None:
     prog = [int(part) for part in s.strip().split(',')]
     prog_d = collections.defaultdict(int, enumerate(prog))
-    run(prog_d, print)
+
+    def in_fn() -> int:
+        return 2
+
+    def out_fn(n: int) -> None:
+        print(n)
+
+    run(prog_d, in_fn, out_fn)
 
 
 def main() -> int:

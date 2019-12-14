@@ -5,32 +5,6 @@ from typing import Dict
 
 from support import timing
 
-# 99 -> halt
-# 1 -> read from 2 positions, add and store in third
-#   (positions are directly after)
-# 2 -> mult
-# jump forward 4 after progessing
-"""\
-Opcode 3 takes a single integer as input and saves it to the address given
-by its only parameter. For example, the instruction 3,50 would take an input
-value and store it at address 50.
-Opcode 4 outputs the value of its only parameter. For example, the
-instruction 4,50 would output the value at address 50.
-
-Opcode 5 is jump-if-true: if the first parameter is non-zero, it sets the
-instruction pointer to the value from the second parameter. Otherwise, it
-does nothing.
-Opcode 6 is jump-if-false: if the first parameter is zero, it sets the
-instruction pointer to the value from the second parameter. Otherwise, it
-does nothing.
-Opcode 7 is less than: if the first parameter is less than the second
-parameter, it stores 1 in the position given by the third parameter.
-Otherwise, it stores 0.
-Opcode 8 is equals: if the first parameter is equal to the second parameter,
-it stores 1 in the position given by the third parameter. Otherwise, it
-stores 0.
-"""
-
 
 def run(prog: Dict[int, int], fn: Callable[[int], None]) -> None:
     def parameter(instr: int, n: int) -> int:

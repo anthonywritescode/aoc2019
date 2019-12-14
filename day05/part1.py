@@ -4,19 +4,6 @@ from typing import List
 
 from support import timing
 
-# 99 -> halt
-# 1 -> read from 2 positions, add and store in third
-#   (positions are directly after)
-# 2 -> mult
-# jump forward 4 after processing
-"""\
-Opcode 3 takes a single integer as input and saves it to the address given
-by its only parameter. For example, the instruction 3,50 would take an input
-value and store it at address 50.
-Opcode 4 outputs the value of its only parameter. For example, the
-instruction 4,50 would output the value at address 50.
-"""
-
 
 def run(prog: List[int], fn: Callable[[int], None]) -> List[int]:
     def parameter(instr: int, n: int) -> int:

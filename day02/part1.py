@@ -5,12 +5,6 @@ import pytest
 
 from support import timing
 
-# 99 -> halt
-# 1 -> read from 2 positions, add and store in third
-#   (positions are directly after)
-# 2 -> mult
-# jump forward 4 after processing
-
 
 def compute_not_broken(prog: List[int]) -> int:
     pc = 0

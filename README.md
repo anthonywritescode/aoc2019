@@ -138,4 +138,7 @@ python day11/part2.py day11/input.txt
 + python day13/part1.py day13/input.txt
 326
 > 38577 μs
++ python day13/part2.py day13/input.txt
+15988
+> 2008 ms
 ```

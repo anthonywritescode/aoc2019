@@ -43,3 +43,8 @@ repos:
         types: [ruby]
         language: ruby
         additional_dependencies: ['rubocop:0.52.0']
+    -   id: gofmt
+        name: gofmt
+        language: system
+        entry: gofmt -l -w
+        files: \.go$

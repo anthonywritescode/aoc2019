@@ -28,6 +28,7 @@ for 2019 I'm trying to implement each day in a different language:
 - day12: kotlin
 - day13: ruby
 - day14: python0
+- day15: go
 
 ### timing
 

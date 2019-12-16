@@ -7,7 +7,7 @@ ints = File.read(ARGV[0]).strip.chars.map(&.to_i)
 
 PATTERN = [0, 1, 0, -1]
 
-100.times do |i|
+100.times do
     next_ints = [] of Int32
 
     (0...ints.size).each do |idx|

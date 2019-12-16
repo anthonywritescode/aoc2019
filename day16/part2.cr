@@ -7,22 +7,13 @@ contents = File.read(ARGV[0]).strip
 ints = contents.chars.map(&.to_i) * 10000
 offset = contents[0...7].to_i
 
-PATTERN = [0, 1, 0, -1]
-
-(0...100).each do |i|
-    sums = [ints[-1]]
-    ints[offset...-1].reverse.each do |n|
-        sums.push(sums[-1] + n)
-    end
-    sums = [0] * offset + sums.reverse
-
-    next_ints = ints[0...offset]
-    (offset...ints.size).each do |idx|
-        next_ints.push(sums[idx].abs % 10)
-    end
-    ints = next_ints
+100.times do
+  partial = ints[offset..-1].sum
+  (offset...ints.size).to_a.each do |e|
+    numb = partial
+    partial -= ints[e]
+    ints[e] = numb.abs % 10
+  end
 end
-ints[offset...offset+8].each do |n|
-    print n
-end
-puts
+
+puts ints[offset...offset+8].join("")

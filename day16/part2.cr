@@ -7,8 +7,6 @@ contents = File.read(ARGV[0]).strip
 ints = contents.chars.map(&.to_i) * 10000
 offset = contents[0...7].to_i
 
-PATTERN = [0, 1, 0, -1]
-
 100.times do
   partial = ints[offset..-1].sum
   (offset...ints.size).to_a.each do |e|

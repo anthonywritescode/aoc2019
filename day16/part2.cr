@@ -1,6 +1,6 @@
 if ARGV.empty?
-    puts "usage: #{__FILE__} FILENAME"
-    exit 1
+  puts "usage: #{__FILE__} FILENAME"
+  exit 1
 end
 
 contents = File.read(ARGV[0]).strip

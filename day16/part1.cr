@@ -7,29 +7,27 @@ ints = File.read(ARGV[0]).strip.chars.map(&.to_i)
 
 PATTERN = [0, 1, 0, -1]
 
-(0...100).each do |i|
+100.times do |i|
     next_ints = [] of Int32
 
     (0...ints.size).each do |idx|
         pattern = [] of Int32
         [0, 1, 0, -1].each do |i|
-            (0..idx).each do |_|
-                pattern.push(i)
+            (0..idx).each do
+                pattern << i
             end
         end
 
         sum = 0
-        pattern.cycle.skip(1).with_index.each do |y,i|
+        pattern.cycle.skip(1).each_with_index do |y,i|
             if i >= ints.size
                 break
             end
             sum += y * ints[i]
         end
-        next_ints.push(sum.abs % 10)
+        next_ints << sum.abs % 10
     end
     ints = next_ints
 end
-ints.first(8).each do |n|
-    print n
-end
-puts
+
+puts ints.first(8).join("")

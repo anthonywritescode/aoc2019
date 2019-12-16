@@ -156,4 +156,11 @@ python day11/part2.py day11/input.txt
 + python day15/part2.py day15/input.txt
 388
 > 188 ms
++ python day16/part1.py day16/input.txt
+85726502
+> 13066 ms (original)
+85726502
+> 6211 ms (optimization 1)
+85726502
+> 4690 ms (optimization 2)
 ```

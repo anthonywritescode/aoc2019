@@ -164,7 +164,10 @@ python day11/part2.py day11/input.txt
 > 6211 ms (optimization 1)
 85726502
 > 4690 ms (optimization 2)
+85726502
+> 4591 ms (optimization 3)
+85726502
 + python day16/part2.py day16/input.txt
 92768399
-> 34401 ms
+> 19313 ms
 ```

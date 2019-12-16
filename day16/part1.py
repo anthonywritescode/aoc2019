@@ -66,6 +66,26 @@ def compute_jump2(s: str) -> str:
     return ''.join(str(n) for n in ints[:8])
 
 
+def compute_jump3(s: str) -> str:
+    ints = [int(c) for c in s.strip()]
+
+    for _ in range(100):
+        next_lst = []
+        for idx in range((len(ints) + 1) // 2):
+            pattern = itertools.cycle(repeat((1, 0, -1, 0), idx + 1))
+            val = sum(x * y for x, y in zip(ints[idx:], pattern))
+            next_lst.append(abs(val) % 10)
+
+        restsum = sum(ints[len(ints) + 1:])
+        for num in ints[len(ints) + 1:]:
+            next_lst.append(abs(restsum) % 10)
+            restsum -= num
+        assert len(ints) == len(next_lst)
+        ints = next_lst
+
+    return ''.join(str(n) for n in ints[:8])
+
+
 @pytest.mark.parametrize(
     ('input_s', 'expected'),
     (
@@ -90,6 +110,9 @@ def main() -> int:
         print(compute_jump1(f.read()))
 
     with open(args.data_file) as f, timing('optimization 2'):
+        print(compute_jump2(f.read()))
+
+    with open(args.data_file) as f, timing('optimization 3'):
         print(compute_jump2(f.read()))
 
     return 0

@@ -94,77 +94,42 @@ def print_grid(grid: Dict[Tuple[int, int], str]) -> None:
     print('=' * 79)
 
 
+DIRECTIONS = [(0, -1), (1, 0), (0, 1), (-1, 0)]
+
+
+def add_coord(p1: Tuple[int, int], p2: Tuple[int, int]) -> Tuple[int, int]:
+    return p1[0] + p2[0], p1[1] + p2[1]
+
+
 def get_path(
         grid: Dict[Tuple[int, int], str],
-        bot_x: int,
-        bot_y: int,
+        pos: Tuple[int, int],
 ) -> List[str]:
-    direction = grid[bot_x, bot_y]
+    assert grid[pos] == '^'
+    direction = DIRECTIONS[0]
     ret: List[str] = []
     n = 0
 
     while '#' in grid.values():
-        grid[bot_x, bot_y] = 'X'
-        if direction == '^':
-            if grid[bot_x, bot_y - 1] in {'#', 'X'}:
-                n += 1
-                bot_y -= 1
-                grid[bot_x, bot_y] = 'X'
-            elif grid[bot_x + 1, bot_y] == '#':
-                ret.extend((str(n), 'R'))
-                n = 0
-                direction = '>'
-            else:
-                assert grid[bot_x - 1, bot_y] == '#'
-                ret.extend((str(n), 'L'))
-                n = 0
-                direction = '<'
-        elif direction == '<':
-            if grid[bot_x - 1, bot_y] in {'#', 'X'}:
-                n += 1
-                bot_x -= 1
-                grid[bot_x, bot_y] = 'X'
-            elif grid[bot_x, bot_y - 1] == '#':
-                ret.extend((str(n), 'R'))
-                n = 0
-                direction = '^'
-            else:
-                assert grid[bot_x, bot_y + 1] == '#'
-                ret.extend((str(n), 'L'))
-                n = 0
-                direction = 'v'
-
-        elif direction == '>':
-            if grid[bot_x + 1, bot_y] in {'#', 'X'}:
-                n += 1
-                bot_x += 1
-                grid[bot_x, bot_y] = 'X'
-            elif grid[bot_x, bot_y + 1] == '#':
-                ret.extend((str(n), 'R'))
-                n = 0
-                direction = 'v'
-            else:
-                assert grid[bot_x, bot_y - 1] == '#'
-                ret.extend((str(n), 'L'))
-                n = 0
-                direction = '^'
-
+        pos_idx = DIRECTIONS.index(direction)
+        right_dir = DIRECTIONS[(pos_idx + 1) % 4]
+        left_dir = DIRECTIONS[(pos_idx - 1) % 4]
+        next_straight = add_coord(pos, direction)
+        next_right = add_coord(pos, right_dir)
+        next_left = add_coord(pos, left_dir)
+        if grid[next_straight] in {'#', 'X'}:
+            n += 1
+            pos = next_straight
+            grid[pos] = 'X'
+        elif grid[next_right] == '#':
+            ret.extend((str(n), 'R'))
+            n = 0
+            direction = right_dir
         else:
-            assert direction == 'v'
-
-            if grid[bot_x, bot_y + 1] in {'#', 'X'}:
-                n += 1
-                bot_y += 1
-                grid[bot_x, bot_y] = 'X'
-            elif grid[bot_x - 1, bot_y] == '#':
-                ret.extend((str(n), 'R'))
-                n = 0
-                direction = '<'
-            else:
-                assert grid[bot_x + 1, bot_y] == '#'
-                ret.extend((str(n), 'L'))
-                n = 0
-                direction = '>'
+            assert grid[next_left] == '#'
+            ret.extend((str(n), 'L'))
+            n = 0
+            direction = left_dir
 
     ret.append(str(n))
     return ret[1:]
@@ -199,10 +164,102 @@ def test_get_path() -> None:
             if s == '^':
                 bot_x = x
                 bot_y = y
-    assert get_path(grid, bot_x, bot_y) == [
+    assert get_path(grid, (bot_x, bot_y)) == [
         'R', '8', 'R', '8', 'R', '4', 'R', '4', 'R', '8', 'L', '6', 'L', '2',
         'R', '4', 'R', '4', 'R', '8', 'R', '8', 'R', '8', 'L', '6', 'L', '2',
     ]
+
+
+def possible_strings(
+        s: str,
+        s_idx: int,
+        prev: Tuple[str, ...],
+) -> List[Tuple[str, int]]:
+    e_idx = s_idx
+
+    while True:
+        for prev_s in prev:
+            if s.startswith(prev_s, s_idx):
+                s_idx = e_idx = s_idx + len(prev_s) + 1
+                break
+        else:
+            break
+
+    ret = []
+    while True:
+        e_idx = s.find(',', e_idx + 1)
+        e_idx = s.find(',', e_idx + 1)
+        if s.count(s[s_idx:e_idx]) == 1 or e_idx - s_idx > 20:
+            break
+        else:
+            ret.append((s[s_idx:e_idx], e_idx + 1))
+    return ret
+
+
+def get_prog(prog: List[str]) -> str:
+    s = ','.join(prog)
+
+    possible = []
+    for s1, s1_e in possible_strings(s, 0, ()):
+        for s2, s2_e in possible_strings(s, s1_e, (s1,)):
+            for s3, s3_e in possible_strings(s, s2_e, (s1, s2)):
+                possible.append((s1, s2, s3))
+
+    for ret_strings in possible:
+        main = []
+        s_try = s
+        while s_try:
+            for i, routine in enumerate(ret_strings):
+                if s_try.startswith(routine):
+                    s_try = s_try[len(routine) + 1:]
+                    main.append(chr(ord('A') + i))
+                    break
+            else:
+                break
+        else:
+            if len(','.join(main)) < 20:
+                return '\n'.join((','.join(main), *ret_strings, 'n', ''))
+    else:
+        raise AssertionError('unreachable')
+
+
+def test_get_prog() -> None:
+    input_actions = [
+        'R', '8', 'R', '8', 'R', '4', 'R', '4', 'R', '8', 'L', '6', 'L', '2',
+        'R', '4', 'R', '4', 'R', '8', 'R', '8', 'R', '8', 'L', '6', 'L', '2',
+    ]
+    # given answer as this, but ours also works :shrug:
+    # A,B,C,B,A,C
+    # R,8,R,8
+    # R,4,R,4,R,8
+    # L,6,L,2
+    # n
+    assert get_prog(input_actions) == '''\
+A,A,B,A,C,B,A,A,A,C
+R,8
+R,4,R,4
+L,6,L,2
+n
+'''
+
+
+def test_get_prog2() -> None:
+    input_actions = [
+        'L', '4', 'R', '8', 'L', '6', 'L', '10', 'L', '6', 'R', '8',
+        'R', '10', 'L', '6', 'L', '6', 'L', '4', 'R', '8', 'L', '6',
+        'L', '10', 'L', '6', 'R', '8', 'R', '10', 'L', '6', 'L', '6',
+        'L', '4', 'L', '4', 'L', '10', 'L', '4', 'L', '4', 'L', '10',
+        'L', '6', 'R', '8', 'R', '10', 'L', '6', 'L', '6', 'L', '4',
+        'R', '8', 'L', '6', 'L', '10', 'L', '6', 'R', '8', 'R', '10',
+        'L', '6', 'L', '6', 'L', '4', 'L', '4', 'L', '10',
+    ]
+    assert get_prog(input_actions) == '''\
+A,B,A,B,C,C,B,A,B,C
+L,4,R,8,L,6,L,10
+L,6,R,8,R,10,L,6,L,6
+L,4,L,4,L,10
+n
+'''
 
 
 def compute(s: str) -> int:
@@ -218,20 +275,22 @@ def compute(s: str) -> int:
     bot_x = 0
     bot_y = 0
 
-    # these were determined by hand :'(
-    PROG = iter('''\
-C,A,C,A,B,B,A,C,A,B
-L,6,R,8,R,10,L,6,L,6
-L,4,L,4,L,10
-L,4,R,8,L,6,L,10
-n
-''')
+    computed = False
+    machine_prog = iter('')
 
     def in_fn() -> int:
-        assert bot_x != 0, bot_x
-        assert bot_y != 0, bot_y
-        assert grid[bot_x, bot_y] == '^', grid[bot_x, bot_y]
-        return ord(next(PROG))
+        nonlocal computed
+        nonlocal machine_prog
+
+        if not computed:
+            assert bot_x != 0, bot_x
+            assert bot_y != 0, bot_y
+            assert grid[bot_x, bot_y] == '^', grid[bot_x, bot_y]
+            path = get_path(grid, (bot_x, bot_y))
+            machine_prog = iter(get_prog(path))
+            computed = True
+
+        return ord(next(machine_prog))
 
     def out_fn(n: int) -> None:
         nonlocal answer

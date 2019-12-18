@@ -180,4 +180,7 @@ python day11/part2.py day11/input.txt
 + python day18/part1.py day18/input.txt
 4544
 > 6940 ms
++ python day18/part2.py day18/input.txt
+1692
+> 2064 ms
 ```

@@ -192,4 +192,11 @@ python day11/part2.py day11/input.txt
 + python day20/part1.py day20/input.txt
 588
 > 17989 μs
++ python day21/part1.py day21/input.txt
+Input instructions:
+
+Walking...
+
+19355862
+> 108 ms
 ```

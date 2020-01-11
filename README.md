@@ -199,4 +199,11 @@ Walking...
 
 19355862
 > 108 ms
++ python day21/part2.py day21/input.txt
+Input instructions:
+
+Running...
+
+1140470745
+> 2234 ms
 ```

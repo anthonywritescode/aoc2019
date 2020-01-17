@@ -31,6 +31,24 @@ def compute(s: str) -> int:
     return deck.index(2019)
 
 
+def do_deck_fast(s: str, idx: int, decksize: int) -> int:
+    for line in s.splitlines():
+        if line == 'deal into new stack':
+            idx = decksize - idx - 1
+        else:
+            op_s, _, n_s = line.rpartition(' ')
+            n = int(n_s)
+            if op_s == 'cut':
+                idx = (idx - n) % decksize
+            else:
+                idx = (idx * n) % decksize
+    return idx
+
+
+def compute_fast(s: str) -> int:
+    return do_deck_fast(s, 2019, 10007)
+
+
 @pytest.mark.parametrize(
     ('input_s', 'expected'),
     (
@@ -49,8 +67,11 @@ def main() -> int:
     parser.add_argument('data_file')
     args = parser.parse_args()
 
-    with open(args.data_file) as f, timing():
+    with open(args.data_file) as f, timing('original'):
         print(compute(f.read()))
+
+    with open(args.data_file) as f, timing('faster'):
+        print(compute_fast(f.read()))
 
     return 0
 

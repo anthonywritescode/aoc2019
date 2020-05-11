@@ -117,7 +117,7 @@ if len(sys.argv) > 2 or len(sys.argv) < 2:
     sys.exit(1)
 
 # use len(...) here as python 0 doesn't have negative indices
-f = open(sys.argv[len(sys.argv) - 1])
+f = open(sys.argv[len(sys.argv) - 1], 'r')
 try:
     reactions = {}
     line = f.readline()

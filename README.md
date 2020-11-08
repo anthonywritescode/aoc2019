@@ -1,4 +1,4 @@
-[![Build Status](https://github.com/anthonywritescode/aoc2019/workflows/pre-commit/badge.svg)](https://github.com/anthonywritescode/aoc2019/actions)
+[![pre-commit.ci status](https://results.pre-commit.ci/badge/github/anthonywritescode/aoc2019/master.svg)](https://results.pre-commit.ci/latest/github/anthonywritescode/aoc2019/master)
 
 advent of code 2019
 ===================

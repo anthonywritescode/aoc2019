@@ -211,4 +211,7 @@ Running...
 > 121 ms (original)
 8379
 > 93 μs (faster)
++ python3 day22/part2.py day22/input.txt
+96959315590030
+> 311 μs (original)
 ```

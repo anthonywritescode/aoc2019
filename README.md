@@ -217,4 +217,7 @@ Running...
 + python3 day23/part1.py input.txt
 22134
 > 41540 μs
++ python3 day23/part2.py input.txt
+16084
+> 605 ms
 ```

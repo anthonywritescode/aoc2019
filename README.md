@@ -226,4 +226,7 @@ Running...
 + python3 day24/part2.py input.txt
 2078
 > 930 ms
++ python3 day25/part1.py day25/input.txt
+"Oh, hello! You should be able to get in by typing 2228740 on the keypad at the main airlock."
+> 5779 ms
 ```
